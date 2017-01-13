@@ -1,0 +1,40 @@
+{
+  "name": "react-image-uploader",
+  "version": "1.0.0",
+  "description": "A react app that uplods image to a sever",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "bundel": "./node_modules/.bin/webpack -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yarsa/react-image-uploader.git"
+  },
+  "keywords": [
+    "reactjs",
+    "html",
+    "css",
+    "javascript"
+  ],
+  "author": "Sagar Subedi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yarsa/react-image-uploader/issues"
+  },
+  "homepage": "https://github.com/yarsa/react-image-uploader#readme",
+  "dependencies": {
+    "axios": "^0.15.3",
+    "express": "^4.14.0",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2"
+  },
+  "devDependencies": {
+    "babel-core": "^6.21.0",
+    "babel-loader": "^6.2.10",
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-react": "^6.16.0",
+    "webpack": "^1.14.0"
+  }
+}
