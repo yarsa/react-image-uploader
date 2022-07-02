@@ -1,69 +1,56 @@
-const React = require('react');
-const sendToServer = require('sendToServer');
+const { useState, useMemo } = require('react')
 
-var PhotoUploader = React.createClass({
+const PhotoUploader = () => {
+  const [image, setImage] = useState('')
 
-  getInitialState: function() {
-    return {
-      image: "",
-      imagePreviewUrl: ""
-    };
-  },
+  const imagePreviewUrl = useMemo(() => {
+    // creates a object url using fake blob
+    if (image) {
+      return URL.createObjectURL(image)
+    }
+    return ''
+  }, [image])
 
-  onImageChange: function (e) {
-    e.preventDefault();
-    var reader = new FileReader();
-    var file = e.target.files[0];
+  useEffect(() => {
+    // clean up the object url when the component unmounts
+    // unecessry for this case but useful for memory management when there are other components (pages)
+    return () => {
+      URL.revokeObjectURL(imagePreviewUrl)
+    }
+  }, [])
 
-    reader.onloadend = () => {
-      this.setState({
-        image: file,
-        imagePreviewUrl: reader.result
-      });
-    };
-
-    reader.readAsDataURL(file);
-  },
-
-  onFormSubmit: function(e) {
-    e.preventDefault();
-    var image = document.getElementById("input").files[0];
-    var that = this;
-    var id = this.props.id;
+  const handleFormSubmit = (e) => {
+    e.preventDefault()
     sendToServer.postData(image).then(function (response) {
       if (typeof response.error != undefined && response.error != null) {
-        console.error("error: " + response.error);
+        console.error('error: ' + response.error)
       } else {
-        window.alert("Image upload succesful");
+        window.alert('Image upload succesful')
       }
-    });
-  },
-
-  render: function() {
-    var {imagePreviewUrl} = this.state;
-    var imageTag = () => {
-      if (imagePreviewUrl == "") {
-        return null;
-      } else {
-        return (<img src={imagePreviewUrl}/>);
-      }
-    };
-
-    return (
-      <div className="submit-form">
-        <form onSubmit={this.onFormSubmit}>
-          <label className="button-primary">Select Image
-            <input className="hddenInput" id="input" ref="image" type="file" required onChange={this.onImageChange}/>
-          </label>
-          <div className="preview">
-            {imageTag()}
-          </div>
-          <button className="button-primary">Upload</button>
-        </form>
-      </div>
-    );
+    })
   }
 
-});
+  return (
+    <div className='submit-form'>
+      <form onSubmit={handleFormSubmit}>
+        <label className='button-primary'>
+          Select Image
+          <input
+            className='hddenInput'
+            id='input'
+            ref='image'
+            type='file'
+            required
+            onChange={(e) => setImage(e.target.files[0])}
+          />
+        </label>
+        <div className='preview'>
+          {imagePreviewUrl && <img src={imagePreviewUrl} />}
+        </div>
+        <button className='button-primary'>Upload</button>
+      </form>
+    </div>
+  )
+}
 
-module.exports = PhotoUploader;
+export default PhotoUploader

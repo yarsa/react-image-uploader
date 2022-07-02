@@ -1,15 +1,6 @@
-/**
- * loading react components
- */
-const React = require("react");
-const ReactDom = require("react-dom");
+import { createRoot } from 'react-dom/client'
+import PhotoUploader from './components/PhotoUploader'
 
-/**
- * loading our custom components
- */
-const PhotoUploader = require('PhotoUploader');
-
-ReactDom.render(
-  <PhotoUploader/>,
-  document.getElementById("app")
-);
+const appContainer = document.getElementById('app')
+const root = createRoot(appContainer)
+root.render(<PhotoUploader />)
