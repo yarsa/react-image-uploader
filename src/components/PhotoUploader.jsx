@@ -40,6 +40,7 @@ const PhotoUploader = () => {
             id='input'
             ref='image'
             type='file'
+            accept='image/*'
             required
             onChange={(e) => setImage(e.target.files[0])}
           />
